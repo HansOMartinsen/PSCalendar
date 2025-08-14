@@ -9,12 +9,12 @@ ForEach-Object {
 }
 
 #define a hashtable of ANSI escapes to use in the calendar
-if ($IsCoreCLR) {
+<# if ($IsCoreCLR) {
     $esc = "`e"
 }
-else {
+else { #>
     $esc = [Char]27
-}
+#}
 
 #define the path to the configuration file
 $configPrefPath = Join-Path $env:USERPROFILE '.pscalendarConfiguration.json'
@@ -25,6 +25,11 @@ If (Test-Path -Path $configPrefPath) {
         DayOfWeek = $in.DayOfWeek
         Today     = $in.Today
         Highlight = $in.Highlight
+        Weekend   = $in.Weekend
+    }
+    #14 August test for new Weekend configuration and add if not there
+    if ($PSCalendarConfiguration["Weekend"] -notMatch "\w+") {
+        $PSCalendarConfiguration["Weekend"] = "$esc[38;5;154m"
     }
 }
 else {
@@ -33,6 +38,7 @@ else {
         DayOfWeek = "$esc[1;4;36m"
         Today     = "$esc[91m"
         Highlight = "$esc[92m"
+        Weekend   = "$esc[38;5;154m"
     }
 }
 

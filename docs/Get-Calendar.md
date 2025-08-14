@@ -16,25 +16,26 @@ Displays a visual representation of a calendar.
 ### month (Default)
 
 ```yaml
-Get-Calendar [[-Month] <String>] [[-Year] <Int32>] [-HighLightDate <String[]>] [-FirstDay <DayOfWeek>] [-NoANSI] [-MonthOnly] [<CommonParameters>]
+Get-Calendar [[-Month] <String>] [[-Year] <Int32>] [-HighLightDate <String[]>] [-FirstDay <DayOfWeek>] [-NoANSI] [-NoWeekEnd] [-MonthOnly] [<CommonParameters>]
 ```
 
 ### quarter
 
 ```yaml
-Get-Calendar -Quarter <Int32> [[-Year] <Int32>] [-HighLightDate <String[]>] [-FirstDay <DayOfWeek>] [-NoANSI] [-MonthOnly] [<CommonParameters>]
+Get-Calendar -Quarter <Int32> [[-Year] <Int32>] [-HighLightDate <String[]>] [-FirstDay <DayOfWeek>] [-NoANSI] [-NoWeekEnd] [-MonthOnly] [<CommonParameters>]
 ```
 
 ### span
 
 ```yaml
-Get-Calendar -Start <String> -End <String> [-HighLightDate <String[]>] [-FirstDay <DayOfWeek>] [-NoANSI] [-MonthOnly] [<CommonParameters>]
+Get-Calendar -Start <String> -End <String> [-HighLightDate <String[]>] [-FirstDay <DayOfWeek>] [-NoANSI] [-NoWeekEnd] [-MonthOnly] [<CommonParameters>]
 ```
 
 ### calyear
 
 ```yaml
-Get-Calendar -CalendarYear <Int32> [-HighLightDate <String[]>] [-FirstDay <DayOfWeek>] [-NoANSI] [-MonthOnly]  [<CommonParameters>]
+Get-Calendar [-HighLightDate <String[]>] [-FirstDay <DayOfWeek>] [-NoANSI] [-NoWeekEnd] [-MonthOnly]
+ -CalendarYear <Int32> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -304,6 +305,22 @@ Accept wildcard characters: False
 ### -MonthOnly
 
 Do not show any leading or trailing days from other months.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoWeekEnd
+
+Do not highlight weekends.
 
 ```yaml
 Type: SwitchParameter

@@ -1,6 +1,8 @@
 # Change Log for PSCalendar
 
 ## [Unreleased]
+### Added
+- Modified commands and code to support a weekend style for the calendar. [[Issue #38](https://github.com/jdhitsolutions/PSCalendar/issues/38)]
 
 ## [2.10.1] - 2025-03-30
 

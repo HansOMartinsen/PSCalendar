@@ -7,15 +7,15 @@ Function Get-Calendar {
         [Parameter(Position = 0, ParameterSetName = "month")]
         [ValidateNotNullOrEmpty()]
         [ValidateScript({
-                $names = _getMonthsByCulture
-                if ($names -contains $_) {
-                    $True
-                }
-                else {
-                    Throw "You entered an invalid month. Valid choices are $($names -join ',')"
-                    $False
-                }
-            })]
+            $names = _getMonthsByCulture
+            if ($names -contains $_) {
+                $True
+            }
+            else {
+                Throw "You entered an invalid month. Valid choices are $($names -join ',')"
+                $False
+            }
+        })]
         [string]$Month = (Get-Date -Format MMMM),
 
         [Parameter(
@@ -34,7 +34,7 @@ Function Get-Calendar {
 
         [Parameter(
             Mandatory,
-            HelpMessage = "Enter the start of a month like 1/1/2020 that is correct for your culture.",
+            HelpMessage = "Enter the start of a month like 1/1/2025 that is correct for your culture.",
             ParameterSetName = "span"
         )]
         [ValidateNotNullOrEmpty()]
@@ -42,7 +42,7 @@ Function Get-Calendar {
 
         [Parameter(
             Mandatory,
-            HelpMessage = "Enter an ending date for the month like 3/1/2020 that is correct for your culture.",
+            HelpMessage = "Enter an ending date for the month like 3/1/2025 that is correct for your culture.",
             ParameterSetName = "span"
             )]
         [ValidateNotNullOrEmpty()]
@@ -58,6 +58,9 @@ Function Get-Calendar {
 
         [Parameter(HelpMessage = "Do not use any ANSI formatting.")]
         [switch]$NoANSI,
+
+        [Parameter(HelpMessage = "Do not highlight weekends")]
+        [switch]$NoWeekEnd,
 
         [Parameter(HelpMessage = "Do not show any leading or trailing days.")]
         [switch]$MonthOnly,
@@ -146,9 +149,10 @@ Function Get-Calendar {
             $paramHash = @{
                 start          = $startD
                 HighLightDates = $HighLightDate
-                firstday       = $FirstDay
+                FirstDay       = $FirstDay
                 noAnsi         = $NoANSI
                 monthOnly      = $monthOnly
+                NoWeekend      = $NoWeekEnd
             }
 
             #enforce NoAnsi if running in the PowerShell ISE [Issue #30]

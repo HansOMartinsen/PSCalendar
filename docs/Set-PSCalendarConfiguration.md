@@ -14,7 +14,8 @@ Modify the PSCalendar ANSI configuration.
 ## SYNTAX
 
 ```yaml
-Set-PSCalendarConfiguration [[-Title] <String>] [[-DayOfWeek] <String>] [[-Today] <String>] [[-Highlight] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-PSCalendarConfiguration [[-Title] <String>] [[-DayOfWeek] <String>] [[-Today] <String>]
+ [[-Highlight] <String>] [-Weekend <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -118,6 +119,22 @@ Aliases:
 
 Required: False
 Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Weekend
+
+Specify an ANSI escape sequence for weekend days.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

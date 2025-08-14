@@ -14,10 +14,6 @@ format type data generated 09/02/2020 11:51:35 by BOVINE320\Jeff
         <ListEntries>
           <ListEntry>
             <ListItems>
-              <!--
-            By default the entries use property names, but you can replace them with scriptblocks.
-            <ScriptBlock>$_.foo /1mb -as [int]</ScriptBlock>
--->
               <ListItem>
                 <Label>Title</Label>
                 <PropertyName>Title</PropertyName>
@@ -33,6 +29,10 @@ format type data generated 09/02/2020 11:51:35 by BOVINE320\Jeff
               <ListItem>
                 <Label>Highlight</Label>
                 <PropertyName>Highlight</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>Weekend</Label>
+                <PropertyName>Weekend</PropertyName>
               </ListItem>
             </ListItems>
           </ListEntry>

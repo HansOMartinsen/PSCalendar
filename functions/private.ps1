@@ -5,9 +5,11 @@ function _getCalendar {
         [System.DayOfWeek]$FirstDay = "Sunday",
         [string[]]$HighLightDates,
         [switch]$NoANSI,
-        [switch]$MonthOnly
+        [switch]$MonthOnly,
+        [switch]$NoWeekEnd
     )
-    $global:mm=@()
+
+    #$global:mm=@()
 
     # https://fmoralesdev.com/2019/03/21/c-DateTime-examples/
 
@@ -170,6 +172,10 @@ function _getCalendar {
                 }
                 elseif ( ($HighLightDates -contains $theDay.date) -AND (-Not $NoANSI)) {
                     "{0}{1}{2}" -f $PScalendarConfiguration.Highlight, $value, "$esc[0m"
+                }
+                elseif (($theDay.DayOfWeek -match "Saturday|Sunday") -AND ((-Not $NoANSI) -AND (-Not $NoWeekEnd))) {
+                    #13 August 2025 optionally highlight weekend days https://github.com/jdhitsolutions/PSCalendar/issues/38
+                     "{0}{1}{2}" -f $PScalendarConfiguration.Weekend, $value, "$esc[0m"
                 }
                 else {
                     $value

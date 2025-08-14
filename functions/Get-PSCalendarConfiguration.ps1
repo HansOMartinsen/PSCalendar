@@ -10,11 +10,12 @@ Function Get-PSCalendarConfiguration {
         Write-Verbose "Running in PowerShell host: $($host.name)"
     }
 
+    #define an version appropriate escape string
     if ($IsCoreCLR) {
         $e = '`e'
     }
     else {
-        $e = '$([Char]0x1b)'
+        $e = '$([Char]27)'
     }
 
     [PSCustomObject]@{
@@ -23,6 +24,8 @@ Function Get-PSCalendarConfiguration {
         DayOfWeek  = "$($pscalendarConfiguration.DayOfWeek){0}{1}$esc[0m" -f $e, $(($PSCalendarConfiguration.DayOfWeek.ToCharArray() | Select-Object -Skip 1 ) -join "")
         Today      = "$($pscalendarConfiguration.Today){0}{1}$esc[0m" -f $e, $(($PSCalendarConfiguration.Today.ToCharArray() | Select-Object -Skip 1 ) -join "")
         Highlight  = "$($pscalendarConfiguration.highlight){0}{1}$esc[0m" -f $e, $(($PSCalendarConfiguration.Highlight.ToCharArray() | Select-Object -Skip 1 ) -join "")
+        Weekend    = "$($pscalendarConfiguration.Weekend){0}{1}$esc[0m" -f $e, $(($PSCalendarConfiguration.Weekend.ToCharArray() | Select-Object -Skip 1 ) -join "")
+
     }
     Write-Verbose "Ending: $($MyInvocation.MyCommand)"
 }

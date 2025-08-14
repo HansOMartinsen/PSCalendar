@@ -28,10 +28,11 @@ Get-Calendar and Show-Calendar commands rely on ANSI escape sequences to coloriz
 ```powershell
 PS C:\> Get-PSCalendarConfiguration
 
-Title     : `e[38;5;3m
+Title     : `e[1;3;38;5;120m
 DayOfWeek : `e[1;4;36m
-Today     : `e[91m
-Highlight : `e[92m
+Today     : `e[92m
+Highlight : `e[1;3;38;5;213m
+Weekend   : `e[38;5;252m
 ```
 
 The display will be formatted with the corresponding ANSI escape sequence. The escape character, will reflect your current PowerShell version.
