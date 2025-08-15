@@ -3,7 +3,8 @@ function _getCalendar {
     Param(
         [DateTime]$start = (Get-Date),
         [System.DayOfWeek]$FirstDay = "Sunday",
-        [string[]]$HighLightDates,
+        #[string[]]$HighLightDates
+        [object]$HighLightDates,
         [switch]$NoANSI,
         [switch]$MonthOnly,
         [switch]$NoWeekEnd
@@ -18,12 +19,45 @@ function _getCalendar {
 
     #Need to rebuild HighLightDate to respect culture?
     if ($HighLightDates) {
-        $HighLightDates = foreach ($item in $HighLightDates) {
+        <# $HighLightDates = foreach ($item in $HighLightDates) {
             Write-Debug "Casting $item as [DateTime]"
             $item -as [DateTime]
         }
         Write-Debug "Detected $($HighLightDates.count) highlight dates"
         $HighLightDates | ForEach-Object { Write-Debug $_.toString()}
+        #>
+        $hdHash = @{}
+        if ($HighLightDates -is [string] -OR $HighLightDate -is [array]) {
+            foreach ($item in $HighLightDates) {
+                Try {
+                    Write-Debug "Casting $item as [DateTime]"
+                    $key =  $item -as [DateTime]
+                    $hdHash.Add($key,$PScalendarConfiguration.Highlight)
+                }
+                Catch {
+                    Throw "Failed to treat $item as a [DateTime]."
+                }
+            }
+        }
+        elseif ($HighLightDates -is [hashtable]) {
+            $HighLightDates.GetEnumerator() | Foreach-Object {
+                Try {
+                    $k = $_.key -as [DateTime]
+                    $v = $_.Value
+                    $hdHash.Add($k,$v)
+                }
+                Catch {
+                    Throw "Failed to treat a value as a [DateTime]."
+                }
+            }
+        }
+        else {
+            #this should be caught with parameter validation in Get-Calendar
+            Throw "Failed to process highlight dates. It must be a string, array of strings or a hashtable."
+            Return
+        }
+        Write-Debug "Detected $($hdHash.keys.count) highlight dates"
+        $hdHash.GetEnumerator()| ForEach-Object { Write-Debug $_.Key}
     }
 
     $mo = $start.month
@@ -170,8 +204,9 @@ function _getCalendar {
                     "{0}{1}{2}" -f $PScalendarConfiguration.Today, $value, "$esc[0m"
 
                 }
-                elseif ( ($HighLightDates -contains $theDay.date) -AND (-Not $NoANSI)) {
-                    "{0}{1}{2}" -f $PScalendarConfiguration.Highlight, $value, "$esc[0m"
+                #elseif ( ($HighLightDates -contains $theDay.date) -AND (-Not $NoANSI)) {
+                elseif ( ($hdHash.Keys -contains $theDay.date) -AND (-Not $NoANSI)) {
+                    "{0}{1}{2}" -f $hdHash[$theDay.date], $value, "$esc[0m"
                 }
                 elseif (($theDay.DayOfWeek -match "Saturday|Sunday") -AND ((-Not $NoANSI) -AND (-Not $NoWeekEnd))) {
                     #13 August 2025 optionally highlight weekend days https://github.com/jdhitsolutions/PSCalendar/issues/38

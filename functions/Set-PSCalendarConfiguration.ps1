@@ -2,15 +2,15 @@ function Set-PSCalendarConfiguration {
     [cmdletbinding(SupportsShouldProcess)]
     [OutputType("None")]
     param (
-        [ValidatePattern('\e\[((?:[0-4]|[39]|[49]|3[0-9]|4[0-9]|38;5;\d+|48;5;\d+);?)+m')]
+        [ValidatePattern('\e\[((?:[0-5]|[39]|[49]|3[0-9]|4[0-9]|38;5;\d+|48;5;\d+);?)+m')]
         [string]$Title,
-        [ValidatePattern('\e\[((?:[0-4]|[39]|[49]|3[0-9]|4[0-9]|38;5;\d+|48;5;\d+);?)+m')]
+        [ValidatePattern('\e\[((?:[0-5]|[39]|[49]|3[0-9]|4[0-9]|38;5;\d+|48;5;\d+);?)+m')]
         [string]$DayOfWeek,
-        [ValidatePattern('\e\[((?:[0-4]|[39]|[49]|3[0-9]|4[0-9]|38;5;\d+|48;5;\d+);?)+m')]
+        [ValidatePattern('\e\[((?:[0-5]|[39]|[49]|3[0-9]|4[0-9]|38;5;\d+|48;5;\d+);?)+m')]
         [string]$Today,
-        [ValidatePattern('\e\[((?:[0-4]|[39]|[49]|3[0-9]|4[0-9]|38;5;\d+|48;5;\d+);?)+m')]
+        [ValidatePattern('\e\[((?:[0-5]|[39]|[49]|3[0-9]|4[0-9]|38;5;\d+|48;5;\d+);?)+m')]
         [string]$Highlight,
-        [ValidatePattern('\e\[((?:[0-4]|[39]|[49]|3[0-9]|4[0-9]|38;5;\d+|48;5;\d+);?)+m')]
+        [ValidatePattern('\e\[((?:[0-5]|[39]|[49]|3[0-9]|4[0-9]|38;5;\d+|48;5;\d+);?)+m')]
         [string]$Weekend
     )
 

@@ -2,17 +2,18 @@
 
 @{
     RootModule           = 'PSCalendar.psm1'
-    ModuleVersion        = '2.10.1'
+    ModuleVersion        = '2.11.0'
     CompatiblePSEditions = @('Desktop', 'Core')
     GUID                 = '222beda0-cdb5-464d-bf49-7ab701da86c9'
     Author               = 'Jeff Hicks'
     CompanyName          = 'JDH Information Technology Solutions, Inc.'
     Copyright            = '(c) 2018-2025 JDH Information Technology Solutions, Inc. All rights reserved.'
-    Description          = 'A PowerShell module to display a calendar in the console.'
+    Description          = 'A PowerShell module to display a calendar in the console. The calendar is styled using ANSI sequences like those found in $PSStyle.'
     PowerShellVersion    = '5.1'
     RequiredModules      = @('Microsoft.PowerShell.ThreadJob')
 
     # Type files (.ps1xml) to be loaded when importing this module
+    # reserved for future use
     # TypesToProcess = @()
 
     FormatsToProcess     = @('formats\pscalendarconfiguration.format.ps1xml')
@@ -28,11 +29,11 @@
         'Export-PSCalendarConfiguration'
     )
     VariablesToExport    = @()
-    AliasesToExport      = @('ncal', 'cal', 'gcal', 'scal','mon','Save-PSCalendarConfiguration')
+    AliasesToExport      = @('ncal', 'cal', 'gcal', 'scal','mon','SaveGe-PSCalendarConfiguration')
 
     PrivateData          = @{
         PSData = @{
-            Tags         = @('calendar', 'reminder', 'wpf', 'ncal')
+            Tags         = @('calendar', 'reminder', 'wpf', 'ncal','pscalendar')
             LicenseUri   = 'https://github.com/jdhitsolutions/PSCalendar/blob/master/license.txt'
             ProjectUri   = 'https://github.com/jdhitsolutions/PSCalendar'
             # IconUri = ''
@@ -42,4 +43,3 @@
 
     } # End of PrivateData hashtable
 }
-

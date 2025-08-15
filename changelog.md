@@ -4,6 +4,10 @@
 ### Added
 - Modified commands and code to support a weekend style for the calendar. [[Issue #38](https://github.com/jdhitsolutions/PSCalendar/issues/38)]
 
+### Changed
+- Updated `Get-Calendar` and `Show-Calendar` to support a hashtable of highlighted dates in addition to an array of strings. __This is a breaking change.__ [[Issue #39](https://github.com/jdhitsolutions/PSCalendar/issues/39)]
+- Updated `Set-PSCalendarConfiguration` to support a slow blinking ANSI sequence like `$([char]27)[5;92m`.
+
 ## [2.10.1] - 2025-03-30
 
 ### Fixed

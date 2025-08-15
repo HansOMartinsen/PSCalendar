@@ -34,13 +34,13 @@ __Note: If you are upgrading to v2.0.0 or later of this module, and have older v
 | [Show-GuiCalendar](docs/Show-GuiCalendar.md)        | *gcal*  | Display a WPF-based calendar.                             |
 | [Show-PSCalendarHelp](docs/Show-PSCalendarHelp.md)  |       | Display a help PDF file for the PSCalendar module.        |
 
-Here are a few details are the commands you are most likely to use.
+Here are a few details are the commands you are most likely to use. Note that not all screen shots have been updated to reflect the latest version of the module.
 
 ### [Get-Calendar](docs/Get-Calendar.md)
 
-The commands in this module have been updated to take advantage ANSI escape sequences. The main function, [Get-Calendar](docs/Get-Calendar.md), will display the current month in the console, highlighting the current date with an ANSI escape sequence.
+The commands in this module have been updated to take advantage ANSI escape sequences. The main function, [Get-Calendar](docs/Get-Calendar.md), will display the current month in the console, highlighting the current date with an ANSI escape sequence. By default, weekend days are also highlighted.
 
-![get-calendar](images/get-calendar-v2.png)
+![get-calendar](images/get-calendar-v2.11.png)
 
 But you can also specify a calendar by month and year.
 
@@ -60,6 +60,27 @@ The function should be culturally aware. The commands in this module that have a
 
 There is a similar autocompletion for `-Year` that begins with the current year and then the next 5 years. Although nothing prevents you from entering any year you want.
 
+#### Highlighting Dates
+
+You can specify dates to highlight using the `-HighlightDate` parameter. You can pass an array of dates, or a single date with multiple dates separated by commas. The dates should be in the culture-specific short date format. You can also specify just the day of the month, and the current month and year will be used.
+
+If you specify a string, the date will be displayed using the ANSI sequence defined in `Get-PSCalendarConfiguration` for highlight. However, beginning with v2.11.0, you can also pass a hashtable where the key is the date to highlight and the value is the ANSI sequence to use.
+
+```powershell
+$h = @{
+  "8/1/2025" = "`e[1;3;38;5;213m"
+  "8/13/2025" = $PSStyle.Foreground.BrightYellow
+  "8/18/2025" = $PSStyle.Foreground.BrightYellow
+  "8/9/2025" = $PSStyle.Foreground.BrightMagenta
+  "8/29/2025" = $PSStyle.Foreground.BrightRed
+}
+Get-Calendar -HighLightDate $h
+```
+
+You can use any ANSI sequence or a `$PSStyle` value.
+
+![using a hashtable for highlights](images/highlighthash.png)
+
 ### [Show-Calendar](docs/Show-Calendar.md)
 
 In previous versions of this module, there was a command called `Show-Calendar` which wrote a colorized version of the calendar to the host using `Write-Host`. This command has been rewritten and now is essentially a wrapper for `Get-Calendar`. The primary difference is that you can position the calendar with this command.
@@ -77,7 +98,6 @@ Show-Calendar -HighLightDate $h -Position $pos -Month July
 One way you might want to use this is in your PowerShell console. You can use the prompt function like this:
 
 ```powershell
-
 #requires -modules "PSCalendar"
 
 Function prompt {
@@ -347,6 +367,37 @@ Name                           Value
 ```
 
 ![PSReminderLite Integration](images/psreminder-integration.png)
+
+As an alternative, you could define a hashtable using tag settings from `Get-PSReminderTag` to color-code different types of reminders.
+
+```powershell
+[regex]$rxPattern = "``e.*m"
+#build a hashtable of tags and styles
+Get-PSReminderTag | foreach -Begin {$tagHash = @{}} -Process {
+   $tagHash.Add($_.Tag,$rxPattern.Replace($_.Style,""))
+}
+#get the default highlight style
+$default = $rxPattern.Replace((Get-PSCalendarConfiguration).Highlight,"")
+$days = @{}
+(Get-PSReminder -All).Where({ -not $_.Expired }).Foreach({
+    #use the first tag
+    $tag = $_.Tags[0]
+    if ($tag) {
+       $style = $tagHash[$tag]
+    }
+    else {
+       #if no tag, use the default calendar highlight style
+       $style = $rxPattern.Replace((Get-PSCalendarConfiguration).Highlight,"")
+    }
+    $day = $_.Date.ToShortDateString()
+    if (-Not ($days.ContainsKey($day))) {
+       $days.Add($day,$style)
+    }
+})
+$PSDefaultParameterValues.'*-*Calendar:HighlightDate' = $days
+```
+
+![PSReminderLite Integration using a hashtable](images/psreminder-integration-hashtable.png)
 
 ## Related Modules
 

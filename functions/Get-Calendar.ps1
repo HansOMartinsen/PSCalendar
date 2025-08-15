@@ -50,7 +50,8 @@ Function Get-Calendar {
 
         [Parameter(HelpMessage = "Specify a collection of dates to highlight in the calendar display.")]
         [ValidateNotNullOrEmpty()]
-        [string[]]$HighLightDate,
+        [ValidateScript({$_ -is [string] -Or $_ -is [array] -OR $_ -is [hashtable]})]
+        [object]$HighLightDate,
 
         [Parameter(HelpMessage = "Specify the first day of the week.")]
         [ValidateNotNullOrEmpty()]
@@ -142,8 +143,8 @@ Function Get-Calendar {
 
         Write-Verbose "Starting at $($startD.toString())"
         Write-Verbose "Ending at $($endD.toString())"
-        Write-Verbose "Highlighting: $($HighLightDate-join ',')"
-        Write-Verbose "Go through the requested months."
+        Write-Verbose "Highlighting: $($HighLightDate.keys-join ',')"
+        Write-Debug "Processing the requested months."
         while ($startD -le $endD) {
             Write-Debug "Looping from $($startD.DateTime)"
             $paramHash = @{

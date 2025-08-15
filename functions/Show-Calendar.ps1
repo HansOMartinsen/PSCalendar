@@ -32,7 +32,10 @@ Function Show-Calendar {
         [ValidatePattern('^\d{4}$')]
         [int]$Year = (Get-Date).Year,
 
-        [string[]]$HighLightDate,
+        [Parameter(HelpMessage = "Specify a collection of dates to highlight in the calendar display.")]
+        [ValidateNotNullOrEmpty()]
+        [ValidateScript({$_ -is [string] -Or $_ -is [array] -OR $_ -is [hashtable]})]
+        [object]$HighLightDate,
 
         [Parameter(HelpMessage = "Specify the first day of the week.")]
         [ValidateNotNullOrEmpty()]

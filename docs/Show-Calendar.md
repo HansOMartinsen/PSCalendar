@@ -16,25 +16,27 @@ Display a colorized calendar month in the console.
 ### month
 
 ```yaml
-Show-Calendar [[-Month] <String>] [[-Year] <Int32>] [-HighLightDate <String[]>] [-FirstDay <DayOfWeek>] [-Position <Coordinates>] [-MonthOnly] [<CommonParameters>]
+Show-Calendar [[-Month] <String>] [[-Year] <Int32>] [-HighLightDate <Object>] [-FirstDay <DayOfWeek>] [-Position <Coordinates>] [-MonthOnly] [<CommonParameters>]
 ```
 
 ### quarter
 
 ```yaml
-Show-Calendar [[-Year] <Int32>] [-HighLightDate <String[]>] [-FirstDay <DayOfWeek>] [-MonthOnly]
- -Quarter <Int32> [<CommonParameters>]
+Show-Calendar -Quarter <Int32> [[-Year] <Int32>] [-HighLightDate <Object>] [-FirstDay <DayOfWeek>] [-MonthOnly] [<CommonParameters>]
 ```
 
 ### calyear
 
 ```yaml
-Show-Calendar -CalendarYear <Int32> [-HighLightDate <String[]>] [-FirstDay <DayOfWeek>] [-MonthOnly] [<CommonParameters>]
+Show-Calendar [-HighLightDate <Object>] [-FirstDay <DayOfWeek>] [-MonthOnly] -CalendarYear <Int32>
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 
 This command is a wrapper for Get-Calendar that essentially shows the same result. The only difference is that you can use Show-Calendar to display the calendar at a specific position in your PowerShell session. This function is also retained for backward compatibility.
+
+To specify highlighted dates you can pass an array of date strings or a hashtable. The hashtable key will be the date and the value will be the color style to use for that date. See examples.
 
 ## EXAMPLES
 
@@ -86,6 +88,31 @@ PS C:\> Show-Calendar -Quarter 2
 ```
 
 Display the months for the second quarter of the current year. The months will be displayed in a single column.
+
+### Example 6
+
+```powershell
+PS C:\> $h = @{
+  "8/1/2025"  = "`e[1;3;38;5;213m"
+  "8/13/2025" = $PSStyle.Foreground.BrightYellow
+  "8/18/2025" = $PSStyle.Foreground.BrightYellow
+  "8/9/2025"  = $PSStyle.Foreground.BrightMagenta
+  "8/29/2025" = $PSStyle.Foreground.BrightRed
+}
+PS C:\> Show-Calendar August -FirstDay Monday -HighLightDate $h
+
+                August 2025
+
+ Mon   Tue   Wed   Thu   Fri   Sat   Sun
+  28    29    30    31     1     2     3
+   4     5     6     7     8     9    10
+  11    12    13    14    15    16    17
+  18    19    20    21    22    23    24
+  25    26    27    28    29    30    31
+   1     2     3     4     5     6     7
+```
+
+Highlight dates using a hashtable. The key is the date and the value is the color style to use for that date. You can use an ANSI escape sequence or a predefined color from $PSStyle. The dates will be formatted accordingly.
 
 ## PARAMETERS
 
@@ -155,10 +182,14 @@ Accept wildcard characters: False
 
 ### -HighLightDate
 
-Specify days to highlight. These dates are colored by ANSI escape sequences. You can modify them with Set-PSCalendarConfiguration. You must format the dates tpo match your culture. It should match the pattern you get from running this command: (Get-Culture).DateTimeFormat.ShortDatePattern
+Specific days (named) to highlight. These dates are color formatted using ANSI escape sequences. You must format the dates to match your culture. It should match the pattern you get from running this command:
+
+(Get-Culture).DateTimeFormat.ShortDatePattern
+
+You can specify an array of strings or use a hashtable. See examples.
 
 ```yaml
-Type: String[]
+Type: Object
 Parameter Sets: (All)
 Aliases:
 
@@ -218,7 +249,6 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS

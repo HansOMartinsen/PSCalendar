@@ -16,31 +16,33 @@ Displays a visual representation of a calendar.
 ### month (Default)
 
 ```yaml
-Get-Calendar [[-Month] <String>] [[-Year] <Int32>] [-HighLightDate <String[]>] [-FirstDay <DayOfWeek>] [-NoANSI] [-NoWeekEnd] [-MonthOnly] [<CommonParameters>]
+Get-Calendar [[-Month] <String>] [[-Year] <Int32>] [-HighLightDate <Object>] [-FirstDay <DayOfWeek>] [-NoANSI] [-NoWeekEnd] [-MonthOnly] [<CommonParameters>]
 ```
 
 ### quarter
 
 ```yaml
-Get-Calendar -Quarter <Int32> [[-Year] <Int32>] [-HighLightDate <String[]>] [-FirstDay <DayOfWeek>] [-NoANSI] [-NoWeekEnd] [-MonthOnly] [<CommonParameters>]
+Get-Calendar -Quarter <Int32> [[-Year] <Int32>] [-HighLightDate <Object>] [-FirstDay <DayOfWeek>] [-NoANSI] [-NoWeekEnd] [-MonthOnly] [<CommonParameters>]
 ```
 
 ### span
 
 ```yaml
-Get-Calendar -Start <String> -End <String> [-HighLightDate <String[]>] [-FirstDay <DayOfWeek>] [-NoANSI] [-NoWeekEnd] [-MonthOnly] [<CommonParameters>]
+Get-Calendar -Start <String> -End <String> [-HighLightDate <Object>] [-FirstDay <DayOfWeek>] [-NoANSI] [-NoWeekEnd] [-MonthOnly] [<CommonParameters>]
 ```
 
 ### calyear
 
 ```yaml
-Get-Calendar [-HighLightDate <String[]>] [-FirstDay <DayOfWeek>] [-NoANSI] [-NoWeekEnd] [-MonthOnly]
+Get-Calendar [-HighLightDate <Object>] [-FirstDay <DayOfWeek>] [-NoANSI] [-NoWeekEnd] [-MonthOnly]
  -CalendarYear <Int32> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 
 This command displays a visual representation of a calendar. It supports multiple months, as well as the ability to highlight a specific date or dates. The default display uses ANSI escape sequences. You can adjust the color scheme using Set-PSCalendarConfiguration.
+
+To specify highlighted dates you can pass an array of date strings or a hashtable. The hashtable key will be the date and the value will be the color style to use for that date. See examples.
 
 When you enter Highlight, Start, or End dates, be sure to use the format that is culturally appropriate. It should match the pattern you get from running this command:
 
@@ -94,7 +96,7 @@ Display a month and highlight specific dates in color.
 ### Example 4
 
 ```powershell
-PS C:\>  Get-Calendar August -FirstDay Monday -HighLightDate 8/12,8/18,8/22
+PS C:\>  Get-Calendar August -FirstDay Monday  -NoANSI
 
                 August 2025
 
@@ -107,7 +109,7 @@ PS C:\>  Get-Calendar August -FirstDay Monday -HighLightDate 8/12,8/18,8/22
    1     2     3     4     5     6     7
 ```
 
-In Windows PowerShell, all of the commands appear to respect culture settings. However, when running in PowerShell 7 there appears to be a bug in .NET Core and how it returns culture information for some cultures, specifically the first day of the week. If you run `Get-Calendar` or `Show-Calendar` and the week begins on the wrong day, use the `FirstDay` parameter to override the detected .NET values with the correct one. If you are running under the en-AU culture in PowerShell 7, you would need to run this command.
+In Windows PowerShell, all of the commands appear to respect culture settings. However, when running in PowerShell 7 there appears to be a bug in .NET Core and how it returns culture information for some cultures, specifically the first day of the week. If you run Get-Calendar or Show-Calendar and the week begins on the wrong day, use the FirstDay parameter to override the detected .NET values with the correct one. If you are running under the en-AU culture in PowerShell 7, you most likely will need to use the FirstDay parameter.
 
 ### Example 5
 
@@ -149,6 +151,31 @@ PS C:\> Get-Calendar -Quarter 2
 ```
 
 Display the months for the second quarter of the current year. The months will be displayed in a single column.
+
+### Example 9
+
+```powershell
+PS C:\> $h = @{
+  "8/1/2025"  = "`e[1;3;38;5;213m"
+  "8/13/2025" = $PSStyle.Foreground.BrightYellow
+  "8/18/2025" = $PSStyle.Foreground.BrightYellow
+  "8/9/2025"  = $PSStyle.Foreground.BrightMagenta
+  "8/29/2025" = $PSStyle.Foreground.BrightRed
+}
+PS C:\> Get-Calendar August -FirstDay Monday -HighLightDate $h
+
+                August 2025
+
+ Mon   Tue   Wed   Thu   Fri   Sat   Sun
+  28    29    30    31     1     2     3
+   4     5     6     7     8     9    10
+  11    12    13    14    15    16    17
+  18    19    20    21    22    23    24
+  25    26    27    28    29    30    31
+   1     2     3     4     5     6     7
+```
+
+Highlight dates using a hashtable. The key is the date and the value is the color style to use for that date. You can use an ANSI escape sequence or a predefined color from $PSStyle. The dates will be formatted accordingly.
 
 ## PARAMETERS
 
@@ -258,14 +285,16 @@ Specific days (named) to highlight. These dates are color formatted using ANSI e
 
 (Get-Culture).DateTimeFormat.ShortDatePattern
 
+You can specify an array of strings or use a hashtable. See examples.
+
 ```yaml
-Type: String[]
+Type: Object
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: Named
-Default value: (Get-Date).date.toString()
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -320,7 +349,7 @@ Accept wildcard characters: False
 
 ### -NoWeekEnd
 
-Do not highlight weekends.
+Do not highlight weekends. If you use the NoAnsi parameter you will get the same result.
 
 ```yaml
 Type: SwitchParameter
