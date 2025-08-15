@@ -5,7 +5,7 @@ online version: https://jdhitsolutions.com/yourls/9fcd90
 schema: 2.0.0
 ---
 
-# Get-Calendar
+# Get-PSCalendar
 
 ## SYNOPSIS
 
@@ -16,25 +16,25 @@ Displays a visual representation of a calendar.
 ### month (Default)
 
 ```yaml
-Get-Calendar [[-Month] <String>] [[-Year] <Int32>] [-HighLightDate <Object>] [-FirstDay <DayOfWeek>] [-NoANSI] [-NoWeekEnd] [-MonthOnly] [<CommonParameters>]
+Get-PSCalendar [[-Month] <String>] [[-Year] <Int32>] [-HighLightDate <Object>] [-FirstDay <DayOfWeek>] [-NoANSI] [-NoWeekEnd] [-MonthOnly] [<CommonParameters>]
 ```
 
 ### quarter
 
 ```yaml
-Get-Calendar -Quarter <Int32> [[-Year] <Int32>] [-HighLightDate <Object>] [-FirstDay <DayOfWeek>] [-NoANSI] [-NoWeekEnd] [-MonthOnly] [<CommonParameters>]
+Get-PSCalendar -Quarter <Int32> [[-Year] <Int32>] [-HighLightDate <Object>] [-FirstDay <DayOfWeek>] [-NoANSI] [-NoWeekEnd] [-MonthOnly] [<CommonParameters>]
 ```
 
 ### span
 
 ```yaml
-Get-Calendar -Start <String> -End <String> [-HighLightDate <Object>] [-FirstDay <DayOfWeek>] [-NoANSI] [-NoWeekEnd] [-MonthOnly] [<CommonParameters>]
+Get-PSCalendar -Start <String> -End <String> [-HighLightDate <Object>] [-FirstDay <DayOfWeek>] [-NoANSI] [-NoWeekEnd] [-MonthOnly] [<CommonParameters>]
 ```
 
 ### calyear
 
 ```yaml
-Get-Calendar [-HighLightDate <Object>] [-FirstDay <DayOfWeek>] [-NoANSI] [-NoWeekEnd] [-MonthOnly]
+Get-PSCalendar [-HighLightDate <Object>] [-FirstDay <DayOfWeek>] [-NoANSI] [-NoWeekEnd] [-MonthOnly]
  -CalendarYear <Int32> [<CommonParameters>]
 ```
 
@@ -53,7 +53,7 @@ When you enter Highlight, Start, or End dates, be sure to use the format that is
 ### Example 1
 
 ```powershell
-PS C:\> Get-Calendar
+PS C:\> Get-PSCalendar
 
                 March 2025
 
@@ -71,7 +71,7 @@ Show the current month. The current day will be formatted in color.
 ### Example 2
 
 ```powershell
-PS C:\> Get-Calendar -start "3/1/2025" -end "5/1/2025"
+PS C:\> Get-PSCalendar -start "3/1/2025" -end "5/1/2025"
 ```
 
 Display monthly calendars from March to May, 2025.
@@ -79,7 +79,7 @@ Display monthly calendars from March to May, 2025.
 ### Example 3
 
 ```powershell
-PS C:\> Get-Calendar December -HighLightDate 12/4/2025,12/25/2025,12/24/2025,12/31/2025
+PS C:\> Get-PSCalendar December -HighLightDate 12/4/2025,12/25/2025,12/24/2025,12/31/2025
 
                December 2025
 
@@ -96,7 +96,7 @@ Display a month and highlight specific dates in color.
 ### Example 4
 
 ```powershell
-PS C:\>  Get-Calendar August -FirstDay Monday  -NoANSI
+PS C:\>  Get-PSCalendar August -FirstDay Monday  -NoANSI
 
                 August 2025
 
@@ -109,12 +109,12 @@ PS C:\>  Get-Calendar August -FirstDay Monday  -NoANSI
    1     2     3     4     5     6     7
 ```
 
-In Windows PowerShell, all of the commands appear to respect culture settings. However, when running in PowerShell 7 there appears to be a bug in .NET Core and how it returns culture information for some cultures, specifically the first day of the week. If you run Get-Calendar or Show-Calendar and the week begins on the wrong day, use the FirstDay parameter to override the detected .NET values with the correct one. If you are running under the en-AU culture in PowerShell 7, you most likely will need to use the FirstDay parameter.
+In Windows PowerShell, all of the commands appear to respect culture settings. However, when running in PowerShell 7 there appears to be a bug in .NET Core and how it returns culture information for some cultures, specifically the first day of the week. If you run Get-PSCalendar or Show-Calendar and the week begins on the wrong day, use the FirstDay parameter to override the detected .NET values with the correct one. If you are running under the en-AU culture in PowerShell 7, you most likely will need to use the FirstDay parameter.
 
 ### Example 5
 
 ```powershell
-PS C:\> Get-Calendar -NoANSI -Start 7/1/2025 -end 9/1/2025  | Out-File c:\work\Q3.txt
+PS C:\> Get-PSCalendar -NoANSI -Start 7/1/2025 -end 9/1/2025  | Out-File c:\work\Q3.txt
 ```
 
 Get the calendars for a month of ranges with no ANSI formatting and save the output to a text file.
@@ -122,7 +122,7 @@ Get the calendars for a month of ranges with no ANSI formatting and save the out
 ### Example 6
 
 ```powershell
-PS C:\> Get-Calendar -Month January -Year 2025 -NoANSI -MonthOnly
+PS C:\> Get-PSCalendar -Month January -Year 2025 -NoANSI -MonthOnly
 
               January 2025
 
@@ -139,7 +139,7 @@ Suppress leading and trailing days from other months with the MonthOnly paramete
 ### Example 7
 
 ```powershell
-PS C:\> Get-Calendar -CalendarYear 2025 -NoANSI | Out-File c:\work\2025.txt
+PS C:\> Get-PSCalendar -CalendarYear 2025 -NoANSI | Out-File c:\work\2025.txt
 ```
 
 Create a yearly calendar for 2025 and save the output to a text file.
@@ -147,7 +147,7 @@ Create a yearly calendar for 2025 and save the output to a text file.
 ### Example 8
 
 ```powershell
-PS C:\> Get-Calendar -Quarter 2
+PS C:\> Get-PSCalendar -Quarter 2
 ```
 
 Display the months for the second quarter of the current year. The months will be displayed in a single column.
@@ -162,7 +162,7 @@ PS C:\> $h = @{
   "8/9/2025"  = $PSStyle.Foreground.BrightMagenta
   "8/29/2025" = $PSStyle.Foreground.BrightRed
 }
-PS C:\> Get-Calendar August -FirstDay Monday -HighLightDate $h
+PS C:\> Get-PSCalendar August -FirstDay Monday -HighLightDate $h
 
                 August 2025
 
@@ -385,7 +385,7 @@ Learn more about PowerShell: https://jdhitsolutions.com/yourls/newsletter
 
 [Set-PSCalendarConfiguration](Set-PSCalendarConfiguration.md)
 
-[Show-Calendar](Show-Calendar.md)
+[Show-PSCalendar](Show-PSCalendar.md)
 
 [Show-GuiCalendar](Show-GuiCalendar.md)
 

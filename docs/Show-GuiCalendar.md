@@ -263,6 +263,6 @@ Learn more about PowerShell: https://jdhitsolutions.com/yourls/newsletter
 
 ## RELATED LINKS
 
-[Show-Calendar](Show-Calendar.md)
+[Show-PSCalendar](Show-PSCalendar.md)
 
-[Get-Calendar](Get-Calendar.md)
+[Get-PSCalendar](Get-PSCalendar.md)

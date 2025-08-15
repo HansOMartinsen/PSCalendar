@@ -1,6 +1,6 @@
-Function Show-Calendar {
+Function Show-PSCalendar {
     [cmdletbinding()]
-    [Alias("scal")]
+    [Alias("scal","Show-Calendar")]
     [OutputType("System.String")]
 
     Param(
@@ -92,7 +92,7 @@ Function Show-Calendar {
         Write-Verbose "ISE detected. Enforcing NoAnsi."
         $PSBoundParameters.Add("NoAnsi",$True)
     }
-    $cal = Get-Calendar @PSBoundParameters
+    $cal = Get-PSCalendar @PSBoundParameters
 
     if ($Position) {
         Write-Verbose "Displaying calendar at position $position"

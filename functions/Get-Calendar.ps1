@@ -1,7 +1,7 @@
-Function Get-Calendar {
+Function Get-PSCalendar {
     [cmdletbinding(DefaultParameterSetName = "month")]
     [OutputType([System.String])]
-    [Alias("cal")]
+    [Alias("cal","Get-Calendar")]
 
     Param(
         [Parameter(Position = 0, ParameterSetName = "month")]

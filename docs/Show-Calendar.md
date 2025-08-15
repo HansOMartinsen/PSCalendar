@@ -5,7 +5,7 @@ online version: https://jdhitsolutions.com/yourls/ed712d
 schema: 2.0.0
 ---
 
-# Show-Calendar
+# Show-PSCalendar
 
 ## SYNOPSIS
 
@@ -16,25 +16,25 @@ Display a colorized calendar month in the console.
 ### month
 
 ```yaml
-Show-Calendar [[-Month] <String>] [[-Year] <Int32>] [-HighLightDate <Object>] [-FirstDay <DayOfWeek>] [-Position <Coordinates>] [-MonthOnly] [<CommonParameters>]
+Show-PSCalendar [[-Month] <String>] [[-Year] <Int32>] [-HighLightDate <Object>] [-FirstDay <DayOfWeek>] [-Position <Coordinates>] [-MonthOnly] [<CommonParameters>]
 ```
 
 ### quarter
 
 ```yaml
-Show-Calendar -Quarter <Int32> [[-Year] <Int32>] [-HighLightDate <Object>] [-FirstDay <DayOfWeek>] [-MonthOnly] [<CommonParameters>]
+Show-PSCalendar -Quarter <Int32> [[-Year] <Int32>] [-HighLightDate <Object>] [-FirstDay <DayOfWeek>] [-MonthOnly] [<CommonParameters>]
 ```
 
 ### calyear
 
 ```yaml
-Show-Calendar [-HighLightDate <Object>] [-FirstDay <DayOfWeek>] [-MonthOnly] -CalendarYear <Int32>
+Show-PSCalendar [-HighLightDate <Object>] [-FirstDay <DayOfWeek>] [-MonthOnly] -CalendarYear <Int32>
  [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 
-This command is a wrapper for Get-Calendar that essentially shows the same result. The only difference is that you can use Show-Calendar to display the calendar at a specific position in your PowerShell session. This function is also retained for backward compatibility.
+This command is a wrapper for Get-PSCalendar that essentially shows the same result. The only difference is that you can use Show-PSCalendar to display the calendar at a specific position in your PowerShell session. This function is also retained for backward compatibility.
 
 To specify highlighted dates you can pass an array of date strings or a hashtable. The hashtable key will be the date and the value will be the color style to use for that date. See examples.
 
@@ -43,7 +43,7 @@ To specify highlighted dates you can pass an array of date strings or a hashtabl
 ### Example 1
 
 ```powershell
-PS C:\> Show-Calendar
+PS C:\> Show-PSCalendar
 ```
 
 Display a colorized version of the current month.
@@ -51,7 +51,7 @@ Display a colorized version of the current month.
 ### Example 2
 
 ```powershell
-PS C:\> Show-Calendar -Month February -Year 2025 -HighLightDate 2/22/21
+PS C:\> Show-PSCalendar -Month February -Year 2025 -HighLightDate 2/22/21
 ```
 
 Display February 2025 and highlight the 22nd using the default highlight color.
@@ -59,7 +59,7 @@ Display February 2025 and highlight the 22nd using the default highlight color.
 ### Example 3
 
 ```powershell
-PS C:\> Show-Calendar  -Position ([system.management.automation.host.coordinates]::new(75,1))
+PS C:\> Show-PSCalendar  -Position ([system.management.automation.host.coordinates]::new(75,1))
 ```
 
 Display the calendar at a specified X,Y position in the console. This parameter will not work in the PowerShell ISE.
@@ -67,7 +67,7 @@ Display the calendar at a specified X,Y position in the console. This parameter 
 ### Example 4
 
 ```powershell
-PS C:\> Show-Calendar -Month January -Year 2025 -MonthOnly
+PS C:\> Show-PSCalendar -Month January -Year 2025 -MonthOnly
 
                January 2025
 
@@ -84,7 +84,7 @@ Suppress leading and trailing days from other months with the MonthOnly paramete
 ### Example 5
 
 ```powershell
-PS C:\> Show-Calendar -Quarter 2
+PS C:\> Show-PSCalendar -Quarter 2
 ```
 
 Display the months for the second quarter of the current year. The months will be displayed in a single column.
@@ -99,7 +99,7 @@ PS C:\> $h = @{
   "8/9/2025"  = $PSStyle.Foreground.BrightMagenta
   "8/29/2025" = $PSStyle.Foreground.BrightRed
 }
-PS C:\> Show-Calendar August -FirstDay Monday -HighLightDate $h
+PS C:\> Show-PSCalendar August -FirstDay Monday -HighLightDate $h
 
                 August 2025
 
@@ -249,6 +249,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
+
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
@@ -267,6 +268,6 @@ Learn more about PowerShell: https://jdhitsolutions.com/yourls/newsletter
 
 ## RELATED LINKS
 
-[Get-Calendar](Get-Calendar.md)
+[Get-PSCalendar](Get-PSCalendar.md)
 
 [Show-GuiCalendar](Show-GuiCalendar.md)

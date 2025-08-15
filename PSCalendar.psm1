@@ -9,15 +9,13 @@ ForEach-Object {
 }
 
 #define a hashtable of ANSI escapes to use in the calendar
-<# if ($IsCoreCLR) {
-    $esc = "`e"
-}
-else { #>
-    $esc = [Char]27
-#}
+$esc = [Char]27
+
 
 #define the path to the configuration file
-$configPrefPath = Join-Path $env:USERPROFILE '.pscalendarConfiguration.json'
+# 15 August 2025 - fixed a bug defining the configuration path on non windows platforms.
+$configPrefPath = Join-Path -Path $HOME -ChildPath '.pscalendarConfiguration.json'
+
 If (Test-Path -Path $configPrefPath) {
     $in = Get-Content $configPrefPath | ConvertFrom-Json
     $PSCalendarConfiguration = @{

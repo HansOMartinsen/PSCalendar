@@ -25,22 +25,24 @@ __Note: If you are upgrading to v2.0.0 or later of this module, and have older v
 | Name                        | Alias | Synopsis                                                   |
 |-----------------------------|-------|-----------------------------------------------------------|
 | [Export-PSCalendarConfiguration](docs/Export-PSCalendarConfiguration.md) | *Save-PSCalendarConfiguration*      | Save the current calendar configuration settings to a file. |
-| [Get-Calendar](docs/Get-Calendar.md)                | *cal*   | Displays a visual representation of a calendar.           |
+| [Get-PSCalendar](docs/Get-PSCalendar.md)                | *cal*,*Get-Calendar*   | Displays a visual representation of a calendar.           |
 | [Get-MonthName](docs/Get-MonthName.md)              |  *mon*  | Get the list of month names.                              |
 | [Get-NCalendar](docs/Get-NCalendar.md)              | *ncal*  | Display a Linux-style ncal calendar.                      |
 | [Get-PSCalendarConfiguration](docs/Get-PSCalendarConfiguration.md) |       | Get the current PSCalendar ANSI configuration.            |
 | [Set-PSCalendarConfiguration](docs/Set-PSCalendarConfiguration.md) |       | Modify the PSCalendar ANSI configuration.                 |
-| [Show-Calendar](docs/Show-Calendar.md)              | *scal*  | Display a colorized calendar month in the console.         |
+| [Show-PSCalendar](docs/Show-PSCalendar.md)              | *scal*,*Show-Calendar*  | Display a colorized calendar month in the console.         |
 | [Show-GuiCalendar](docs/Show-GuiCalendar.md)        | *gcal*  | Display a WPF-based calendar.                             |
 | [Show-PSCalendarHelp](docs/Show-PSCalendarHelp.md)  |       | Display a help PDF file for the PSCalendar module.        |
 
-Here are a few details are the commands you are most likely to use. Note that not all screen shots have been updated to reflect the latest version of the module.
+Here are a few details are the commands you are most likely to use. in v2.11.0 `Get-Calendar` and `Show-PSCalendar` have been renamed to `Get-PSCalendar` and `Show-PSCalendar`. The old names are now __aliases__ for the new commands. This was done to make the command names more consistent with this module. This change shouldn't break any existing scripts or commands that use the old names.
 
-### [Get-Calendar](docs/Get-Calendar.md)
+Note that not all screen shots have been updated to reflect the latest version of the module.
 
-The commands in this module have been updated to take advantage ANSI escape sequences. The main function, [Get-Calendar](docs/Get-Calendar.md), will display the current month in the console, highlighting the current date with an ANSI escape sequence. By default, weekend days are also highlighted.
+### [Get-PSCalendar](docs/Get-PSCalendar.md)
 
-![get-calendar](images/get-calendar-v2.11.png)
+The commands in this module have been updated to take advantage ANSI escape sequences. The main function, [Get-PSCalendar](docs/Get-PSCalendar.md), will display the current month in the console, highlighting the current date with an ANSI escape sequence. By default, weekend days are also highlighted.
+
+![Get-PSCalendar](images/get-calendar-v2.11.png)
 
 But you can also specify a calendar by month and year.
 
@@ -66,7 +68,7 @@ You can specify dates to highlight using the `-HighlightDate` parameter. You can
 
 If you specify a string, the date will be displayed using the ANSI sequence defined in `Get-PSCalendarConfiguration` for highlight. However, beginning with v2.11.0, you can also pass a hashtable where the key is the date to highlight and the value is the ANSI sequence to use.
 
-```powershell
+```shell
 $h = @{
   "8/1/2025" = "`e[1;3;38;5;213m"
   "8/13/2025" = $PSStyle.Foreground.BrightYellow
@@ -74,24 +76,24 @@ $h = @{
   "8/9/2025" = $PSStyle.Foreground.BrightMagenta
   "8/29/2025" = $PSStyle.Foreground.BrightRed
 }
-Get-Calendar -HighLightDate $h
+Get-PSCalendar -HighLightDate $h
 ```
 
 You can use any ANSI sequence or a `$PSStyle` value.
 
 ![using a hashtable for highlights](images/highlighthash.png)
 
-### [Show-Calendar](docs/Show-Calendar.md)
+### [Show-PSCalendar](docs/Show-PSCalendar.md)
 
-In previous versions of this module, there was a command called `Show-Calendar` which wrote a colorized version of the calendar to the host using `Write-Host`. This command has been rewritten and now is essentially a wrapper for `Get-Calendar`. The primary difference is that you can position the calendar with this command.
+In previous versions of this module, there was a command called `Show-PSCalendar` which wrote a colorized version of the calendar to the host using `Write-Host`. This command has been rewritten and now is essentially a wrapper for `Get-PSCalendar`. The primary difference is that you can position the calendar with this command.
 
 ```powershell
 $pos = [System.Management.Automation.Host.Coordinates]::new(72,0)
 $h = "7/4/2025","7/14/2025"
-Show-Calendar -HighLightDate $h -Position $pos -Month July
+Show-PSCalendar -HighLightDate $h -Position $pos -Month July
 ```
 
-![Show-Calendar](images/show-calendar-v2.png)
+![Show-PSCalendar](images/show-calendar-v2.png)
 
 #### A Console Calendar Prompt
 
@@ -101,7 +103,7 @@ One way you might want to use this is in your PowerShell console. You can use th
 #requires -modules "PSCalendar"
 
 Function prompt {
-  #define a buffercell fill
+  #define a buffer cell fill
   $fill = [system.management.automation.host.buffercell]::new(" ",$host.UI.RawUI.BackgroundColor,$host.UI.RawUI.BackgroundColor,"complete")
 
   #define a rectangle with an upper left corner X distance from the edge
@@ -123,14 +125,13 @@ Function prompt {
 
   #show the calendar in the upper right corner of the console
   $pos = [system.management.automation.host.coordinates]::new($left,0)
-  Show-Calendar -Position $pos
+  Show-PSCalendar -Position $pos
 
   "PS $($executionContext.SessionState.Path.CurrentLocation)$('>' * ($nestedPromptLevel + 1)) ";
 
 # .Link
 # https://go.microsoft.com/fwlink/?LinkID=225750
 # .ExternalHelp System.Management.Automation.dll-help.xml
-
 }
 ```
 
@@ -152,7 +153,7 @@ The function runs the calendar-related code in a runspace so it does not block y
 Show-GuiCalendar 12/2025 2/2026 -highlight 12/24/25,12/25/25,12/31/25,1/1/26,1/18/26,2/14/26,2/22/26
 ```
 
-![Show-GuiCalendar](images/show-GuiCalendar.png)
+![Show-GuiCalendar](images/show-guicalendar.png)
 
 The calendar form is transparent. But you should be able to click on it to drag it around your screen. You can also use the `+` and `-` keys to increase or decrease the calendar's opacity. Be aware that if you close the PowerShell session that launched the calendar, the calendar too will close.
 
@@ -182,7 +183,7 @@ The Linux world has an *ncal* command which displays the month in a vertical fas
 
 The current date will be highlighted unless you use `-HideHighlight`. You must use the full month name, although there is tab completion.
 
-```dos
+```shell
 PS C:\> ncal July 2025
      July 2025
 Sun     6 13 20 27
@@ -200,7 +201,7 @@ This command does not support date highlighting other than the current date. See
 
 This simple command will list the full month names for the current culture.
 
-```dos
+```shell
 PS C:\> Get-MonthName
 January
 February
@@ -218,7 +219,7 @@ December
 
 You might use this to build a larger `ncal` listing.
 
-```dos
+```shell
 PS C:\> Get-MonthName | Select-Object -first 3 | Get-NCalendar -Year 2025
     January 2025
 Sun     5 12 19 26
@@ -281,8 +282,8 @@ This change lasts for the duration of your PowerShell session. If you want to ma
 
 Or you can use [`Export-PSCalendarConfiguration`](docs/Export-PSCalendarConfiguration.md) to save the settings to a file. This command was added in `v2.10.0`.
 
-```dos
-Export-PSCalendarConfiguration -passthru
+```shell
+PS C:\> Export-PSCalendarConfiguration -passthru
 
         Directory: C:\Users\Jeff
 
@@ -314,10 +315,10 @@ I've tried very hard to make the commands respect culture. Most commands now tha
 (Get-Culture).DateTimeFormat.ShortDatePattern
 ```
 
-In Windows PowerShell, all of the commands appear to respect culture settings. However, when running in PowerShell 7 there appears to be a bug in .NET Core and how it returns culture information for some cultures, specifically the first day of the week. If you run `Get-Calendar` or `Show-Calendar` and the week begins on the wrong day, use the `FirstDay` parameter to override the detected .NET values with the correct one.
+In Windows PowerShell, all of the commands appear to respect culture settings. However, when running in PowerShell 7 there appears to be a bug in .NET Core and how it returns culture information for some cultures, specifically the first day of the week. If you run `Get-PSCalendar` or `Show-PSCalendar` and the week begins on the wrong day, use the `FirstDay` parameter to override the detected .NET values with the correct one.
 
-```dos
-PS C:\> Get-Calendar august -FirstDay Monday -highlight 1/8/2025,15,8,2025
+```shell
+PS C:\> Get-PSCalendar August -FirstDay Monday -highlight 1/8/2025,15,8,2025
 
                 August 2025
 
@@ -336,7 +337,7 @@ For example, if you are running under the `en-AU` culture, you would need to use
 
 You might be interested in integrating this module with the [PSReminderLite](https://github.com/jdhitsolutions/PSReminderLite) PowerShell module. The `PSReminderLite` module is a lightweight reminder system that uses a SQLite database.
 
-```dos
+```shell
 PS C:\> Get-PSReminder -Tag Event
 
 ID   Event                         Comment                               Date   Countdown
@@ -358,7 +359,7 @@ $PSDefaultParameterValues.'*-*Calendar:HighlightDate' = $days
 
 This ensures that I always have my upcoming reminders highlighted in the calendar without having to manually enter them.
 
-```dos
+```shell
 PS C:\> $PSDefaultParameterValues.GetEnumerator() | where Name -match calendar
 
 Name                           Value

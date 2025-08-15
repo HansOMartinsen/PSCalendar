@@ -1,12 +1,23 @@
 # Change Log for PSCalendar
 
 ## [Unreleased]
+
+## [2.11.0] - 2025-08-15
+
 ### Added
+
 - Modified commands and code to support a weekend style for the calendar. [[Issue #38](https://github.com/jdhitsolutions/PSCalendar/issues/38)]
 
 ### Changed
+
+- Renamed `Show-Calendar` to `Show-PSCalendar` and defined the old name as an alias. The name change should better align with the module name.
+- Renamed `Get-Calendar` to `Get-PSCalendar` and defined the old name as an alias. The name change should better align with the module name.
 - Updated `Get-Calendar` and `Show-Calendar` to support a hashtable of highlighted dates in addition to an array of strings. __This is a breaking change.__ [[Issue #39](https://github.com/jdhitsolutions/PSCalendar/issues/39)]
 - Updated `Set-PSCalendarConfiguration` to support a slow blinking ANSI sequence like `$([char]27)[5;92m`.
+
+### Fixed
+
+- Fixed a bug defining the configuration path on non-windows platforms.
 
 ## [2.10.1] - 2025-03-30
 
@@ -217,7 +228,7 @@ This is a major update of the module with many __breaking changes__
 - some minor code cleanup
 - Added a private helper function to enumerate month names [Issue #2](https://github.com/jdhitsolutions/PSCalendar/issues/2)
 
-## [v1.1.0] - 2018-09-28
+## v1.1.0 - 2018-09-28
 
 - Fixed dot sourcing of calendar functions script.
 - Updated `README.md`
@@ -228,7 +239,8 @@ This is a major update of the module with many __breaking changes__
 
 - Initial module code
 
-[Unreleased]: https://github.com/jdhitsolutions/PSCalendar/compare/v2.10.1..HEAD
+[Unreleased]: https://github.com/jdhitsolutions/PSCalendar/compare/v2.11.0..HEAD
+[2.11.0]: https://github.com/jdhitsolutions/PSCalendar/compare/v2.10.1..v2.11.0
 [2.10.1]: https://github.com/jdhitsolutions/PSCalendar/compare/v2.10.0..v2.10.1
 [2.10.0]: https://github.com/jdhitsolutions/PSCalendar/compare/vv2.9.0..v2.10.0
 [v2.9.0]: https://github.com/jdhitsolutions/PSCalendar/compare/v2.8.0..v2.9.0

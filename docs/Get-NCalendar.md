@@ -178,6 +178,6 @@ Learn more about PowerShell: https://jdhitsolutions.com/yourls/newsletter
 
 ## RELATED LINKS
 
-[Get-Calendar](Get-Calendar.md)
+[Get-PSCalendar](Get-PSCalendar.md)
 
 [Get-MonthName](Get-MonthName.md)

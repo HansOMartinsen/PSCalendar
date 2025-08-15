@@ -18,8 +18,8 @@
 
     FormatsToProcess     = @('formats\pscalendarconfiguration.format.ps1xml')
     FunctionsToExport    = @(
-        'Get-Calendar',
-        'Show-Calendar',
+        'Get-PSCalendar',
+        'Show-PSCalendar',
         'Get-NCalendar',
         'Show-GuiCalendar',
         'Show-PSCalendarHelp',
@@ -29,8 +29,16 @@
         'Export-PSCalendarConfiguration'
     )
     VariablesToExport    = @()
-    AliasesToExport      = @('ncal', 'cal', 'gcal', 'scal','mon','SaveGe-PSCalendarConfiguration')
-
+    AliasesToExport      = @(
+        'ncal',
+        'cal',
+        'gcal',
+        'scal',
+        'mon',
+        'Save-PSCalendarConfiguration',
+        'Get-Calendar',
+        'Show-Calendar'
+        )
     PrivateData          = @{
         PSData = @{
             Tags         = @('calendar', 'reminder', 'wpf', 'ncal','pscalendar')
