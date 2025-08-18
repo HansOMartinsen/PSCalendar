@@ -19,6 +19,7 @@ function _getCalendar {
 
     #Need to rebuild HighLightDate to respect culture?
     if ($HighLightDates) {
+        Write-Verbose "Processing highlighted dates"
         <# $HighLightDates = foreach ($item in $HighLightDates) {
             Write-Debug "Casting $item as [DateTime]"
             $item -as [DateTime]
@@ -73,7 +74,7 @@ function _getCalendar {
     #$DateTimeFormat.FirstDayOfWeek.value__
 
     Write-Debug "First day of the week is $FirstDay [$fd]"
-   $CurrentDay = $start
+    $CurrentDay = $start
 
     $day0 = @()
     $day1 = @()
@@ -189,7 +190,6 @@ function _getCalendar {
 
             #Write-Debug "Adding $theDay"
             if ($theDay) {
-
                 if (($start.month -ne $theDay.month) -AND $MonthOnly) {
                     $theDay = $null
                     $d = ' '
@@ -204,8 +204,8 @@ function _getCalendar {
                     "{0}{1}{2}" -f $PScalendarConfiguration.Today, $value, "$esc[0m"
 
                 }
-                #elseif ( ($HighLightDates -contains $theDay.date) -AND (-Not $NoANSI)) {
-                elseif ( ($hdHash.Keys -contains $theDay.date) -AND (-Not $NoANSI)) {
+                #18 Aug 2025 Test for $hdHash to fix Issue #40
+                elseif ( $hdHash -AND ($hdHash.Keys -contains $theDay.date) -AND (-Not $NoANSI)) {
                     "{0}{1}{2}" -f $hdHash[$theDay.date], $value, "$esc[0m"
                 }
                 elseif (($theDay.DayOfWeek -match "Saturday|Sunday") -AND ((-Not $NoANSI) -AND (-Not $NoWeekEnd))) {

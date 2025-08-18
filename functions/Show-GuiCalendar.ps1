@@ -178,33 +178,33 @@ Function Show-GuiCalendar {
         # $form.background.Opacity = 50
         $form.ShowInTaskbar = $False
         $form.Add_Loaded( {
-                $form.Topmost = $True
-                $form.Activate()
-            })
+            $form.Topmost = $True
+            $form.Activate()
+        })
 
         $form.Add_MouseLeftButtonDown( { $form.DragMove() })
 
         #add event handlers to adjust opacity by using the +/- keys
         $form.add_KeyDown( {
-                switch ($_.key) {
-                    { 'Add', 'OemPlus' -contains $_ } {
-                        foreach ($cal in $myCals) {
-                            If ($cal.Opacity -lt 1) {
-                                $cal.Opacity = $cal.opacity + .1
-                                $cal.UpdateLayout()
-                            }
-                        }
-                    }
-                    { 'Subtract', 'OemMinus' -contains $_ } {
-                        foreach ($cal in $myCals) {
-                            If ($cal.Opacity -gt .2) {
-                                $cal.Opacity = $cal.Opacity - .1
-                                $cal.UpdateLayout()
-                            }
+            switch ($_.key) {
+                { 'Add', 'OemPlus' -contains $_ } {
+                    foreach ($cal in $myCals) {
+                        If ($cal.Opacity -lt 1) {
+                            $cal.Opacity = $cal.opacity + .1
+                            $cal.UpdateLayout()
                         }
                     }
                 }
-            })
+                { 'Subtract', 'OemMinus' -contains $_ } {
+                    foreach ($cal in $myCals) {
+                        If ($cal.Opacity -gt .2) {
+                            $cal.Opacity = $cal.Opacity - .1
+                            $cal.UpdateLayout()
+                        }
+                    }
+                }
+            }
+        })
 
         $stack = New-Object System.Windows.Controls.StackPanel
         $stack.Width = $form.Width
@@ -255,6 +255,7 @@ Function Show-GuiCalendar {
             if ($BackgroundImage) {
                 $calBg = New-Object System.Windows.Media.ImageBrush -ArgumentList $BackgroundImage
                 $calBg.Stretch = $Stretch
+                #$calBg.Opacity = .5
                 $cal.Background = $calBg
             }
             elseif ($BackgroundColor) {
@@ -308,9 +309,7 @@ Function Show-GuiCalendar {
         $btn.VerticalAlignment = "Bottom"
         $btn.HorizontalAlignment = "Center"
         $btn.Opacity = 1
-        $btn.Add_click( {
-                $form.close()
-            })
+        $btn.Add_click({$form.close()})
 
         $stack.AddChild($btn)
 

@@ -12,7 +12,7 @@ Function Export-PSCalendarConfiguration {
     Write-Verbose "Using PowerShell version: $($PSVersionTable.PSVersion)"
     Write-Verbose "Running in PowerShell host: $($host.name)"
 
-    #$configPrefPath is a module-scoped variabledir
+    #$configPrefPath is a module-scoped variable
     Write-Verbose "Exporting configuration to $configPrefPath"
     #$PSCalendarConfiguration and  $configPath are module scoped variables defined in the root module
     $PSCalendarConfiguration | ConvertTo-Json |

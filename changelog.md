@@ -2,6 +2,17 @@
 
 ## [Unreleased]
 
+## [2.11.1] - 2025-08-18
+
+### Changed
+
+- Updated `README.md`.
+- Updated Pester tests.
+
+### Fixed
+
+- Update private function to display calendar to fix a bug when no highlighted dates are used and using the `-MonthOnly` parameter. [[Issue #40](https://github.com/jdhitsolutions/PSCalendar/issues/40)]
+
 ## [2.11.0] - 2025-08-15
 
 ### Added
@@ -239,7 +250,8 @@ This is a major update of the module with many __breaking changes__
 
 - Initial module code
 
-[Unreleased]: https://github.com/jdhitsolutions/PSCalendar/compare/v2.11.0..HEAD
+[Unreleased]: https://github.com/jdhitsolutions/PSCalendar/compare/v2.11.1..HEAD
+[2.11.1]: https://github.com/jdhitsolutions/PSCalendar/compare/v2.11.0..v2.11.1
 [2.11.0]: https://github.com/jdhitsolutions/PSCalendar/compare/v2.10.1..v2.11.0
 [2.10.1]: https://github.com/jdhitsolutions/PSCalendar/compare/v2.10.0..v2.10.1
 [2.10.0]: https://github.com/jdhitsolutions/PSCalendar/compare/vv2.9.0..v2.10.0

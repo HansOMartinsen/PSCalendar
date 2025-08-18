@@ -143,17 +143,20 @@ Function Get-PSCalendar {
 
         Write-Verbose "Starting at $($startD.toString())"
         Write-Verbose "Ending at $($endD.toString())"
-        Write-Verbose "Highlighting: $($HighLightDate.keys-join ',')"
         Write-Debug "Processing the requested months."
         while ($startD -le $endD) {
             Write-Debug "Looping from $($startD.DateTime)"
             $paramHash = @{
                 start          = $startD
-                HighLightDates = $HighLightDate
                 FirstDay       = $FirstDay
                 noAnsi         = $NoANSI
                 monthOnly      = $monthOnly
                 NoWeekend      = $NoWeekEnd
+            }
+            #18 Aug 2025 Fixing Issue #40
+            If ($HighLightDate) {
+                Write-Verbose "Highlighting: $($HighLightDate.keys-join ',')"
+                 $paramHash.Add("HighLightDates",$HighLightDate)
             }
 
             #enforce NoAnsi if running in the PowerShell ISE [Issue #30]

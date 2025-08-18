@@ -38,9 +38,9 @@ Here are a few details are the commands you are most likely to use. in v2.11.0 `
 
 Note that not all screen shots have been updated to reflect the latest version of the module.
 
-### [Get-PSCalendar](docs/Get-PSCalendar.md)
+### [Get-PSCalendar](docs/Get-Calendar.md)
 
-The commands in this module have been updated to take advantage ANSI escape sequences. The main function, [Get-PSCalendar](docs/Get-PSCalendar.md), will display the current month in the console, highlighting the current date with an ANSI escape sequence. By default, weekend days are also highlighted.
+The commands in this module have been updated to take advantage ANSI escape sequences. The main function, [Get-PSCalendar](docs/Get-Calendar.md), will display the current month in the console, highlighting the current date with an ANSI escape sequence. By default, weekend days are also highlighted.
 
 ![Get-PSCalendar](images/get-calendar-v2.11.png)
 
@@ -83,7 +83,7 @@ You can use any ANSI sequence or a `$PSStyle` value.
 
 ![using a hashtable for highlights](images/highlighthash.png)
 
-### [Show-PSCalendar](docs/Show-PSCalendar.md)
+### [Show-PSCalendar](docs/Show-Calendar.md)
 
 In previous versions of this module, there was a command called `Show-PSCalendar` which wrote a colorized version of the calendar to the host using `Write-Host`. This command has been rewritten and now is essentially a wrapper for `Get-PSCalendar`. The primary difference is that you can position the calendar with this command.
 
@@ -139,7 +139,7 @@ Assuming the width of your console is at least 120, this code should work. Other
 
 ![console calendar](images/console-calendar.png)
 
-Note that any command output may be truncated because of the calendar display. This prompt function works as expected when using the Windows Terminal. Function needs work to behave as expected in a traditional PowerShell console where you might have a large buffer for scrolling.
+Note that any command output may be truncated because of the calendar display. This prompt function works as expected when using the Windows Terminal. The function needs work to behave as expected in a traditional PowerShell console where you might have a large buffer for scrolling.
 
 ### [Show-GuiCalendar](docs/Show-GuiCalendar)
 
@@ -147,7 +147,7 @@ Finally, you can display a graphical calendar using a Windows Presentation Found
 
 > __This command is not supported on non-Windows platforms.__
 
-The function runs the calendar-related code in a runspace so it does not block your prompt. You can display up to 3 months and specify dates to highlight.
+The function runs the calendar-related code in a separate runspace so it does not block your prompt. You can display up to 3 months and specify dates to highlight. You cannot customize the highlight style.
 
 ```powershell
 Show-GuiCalendar 12/2025 2/2026 -highlight 12/24/25,12/25/25,12/31/25,1/1/26,1/18/26,2/14/26,2/22/26
@@ -258,7 +258,7 @@ $h = @{"7/4/2025"="4th of July Holiday";"7/14/2025"="Bastille Day";"7/22/2025"="
 Show-GuiCalendar -Start 7/1/2025 -HighLightDate $h -BackgroundColor wheat -FontWeight Bold -Font Tahoma
 ```
 
-When you pass a hashtable, you will get a tooltip popup when you hover the mouse over the month.
+When you pass a hashtable, you will get a tooltip popup for the entire month when you hover the mouse over the calendar.
 
 ![calendar-popup](images/calendar-popup.png)
 

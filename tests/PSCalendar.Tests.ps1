@@ -65,8 +65,8 @@ Describe "$script:ModuleName v$($script:myModule.Version) [$($script:myModule.Mo
             $exported = Get-Command -Module $script:ModuleName -CommandType Function
         }
         It "Should have an exported command of <Name>" -TestCases @(
-         @{Name = 'Get-Calendar'},
-         @{Name = 'Show-Calendar'},
+         @{Name = 'Get-PSCalendar'},
+         @{Name = 'Show-PSCalendar'},
          @{Name = 'Show-GuiCalendar'},
          @{Name = 'Get-NCalendar'},
          @{Name = 'Get-MonthName'},
@@ -81,10 +81,10 @@ Describe "$script:ModuleName v$($script:myModule.Version) [$($script:myModule.Mo
         }
 
         It "Should have an alias of <Name>" -TestCases @(
-            @{Name='cal';Resolved="Get-Calendar"},
+            @{Name='cal';Resolved="Get-PSCalendar"},
             @{Name='mon';Resolved="Get-MonthName"},
             @{Name='ncal';Resolved="Get-NCalendar"},
-            @{Name='scal';Resolved="Show-Calendar"},
+            @{Name='scal';Resolved="Show-PSCalendar"},
             @{Name='gcal';Resolved="Show-GuiCalendar"},
             @{Name = 'Save-PSCalendarConfiguration';Resolved="Export-PSCalendarConfiguration"}
         ) {
@@ -93,7 +93,7 @@ Describe "$script:ModuleName v$($script:myModule.Version) [$($script:myModule.Mo
         }
  }
     Context Structure {
-        It "Should have a Docs folder" {
+        It "Should have a docs folder" {
             Get-Item $PSScriptRoot\..\docs | Should -Be $True
         }
         foreach ($cmd in $exported.name) {
@@ -117,45 +117,44 @@ Describe "$script:ModuleName v$($script:myModule.Version) [$($script:myModule.Mo
 } -Tag module
 
 InModuleScope $script:ModuleName {
-    Describe Get-Calendar {
+    Describe Get-PSCalendar {
         It "Should run without error with defaults" {
-            {Get-Calendar} | Should -Not -Throw
+            {Get-PSCalendar} | Should -Not -Throw
         }
         It "Should -Throw an exception with a bad month" {
-            {Get-Calendar -month foo} | Should -Throw
+            {Get-PSCalendar -month foo} | Should -Throw
         }
         It "Should write a STRING to the pipeline" {
-            $c = Get-Calendar
+            $c = Get-PSCalendar
             $c | Should -BeOfType String
         }
         It "Should display the month and year" {
             #use the current month
-            $c = Get-Calendar -month January -year 2020
+            $c = Get-PSCalendar -month January -year 2020
             $c -match "January 2020" | Should -Be $True
         }
         It "Should fail with a year unless using 4 digits" {
-            {Get-Calendar -year 2022 } | Should -Not -Throw
-            {Get-Calendar -year 20} | Should -Throw
-            {Get-Calendar -year 20200} | Should -Throw
+            {Get-PSCalendar -year 2022 } | Should -Not -Throw
+            {Get-PSCalendar -year 20} | Should -Throw
+            {Get-PSCalendar -year 20200} | Should -Throw
         }
         It "Should let you highlight a date" {
-            $c = Get-Calendar -month January -Year 2022 -HighLightDate 1/1/2022
-            $c -match "$([char]27)\[92m\s+\d+" | Should -Be $True
+            $c = Get-PSCalendar -month January -Year 2022 -HighLightDate 1/1/2022 | Out-String
+            $c -match "$([char]27)\[.*m\s+\d+" | Should -Be $True
         }
         It "Should let you specify a start month and end month" {
-            $c = Get-Calendar -Start "1/1/2022" -end "2/1/2022"
+            $c = Get-PSCalendar -Start "1/1/2022" -end "2/1/2022"
             $c.length | Should -Be 16
             $c -match "January 2022" | Should -Be $true
             $c -match "February 2022" | Should -Be $true
         }
     } -tag command
 
-    Describe "Show-Calendar" {
-        #TODO - revise this test
+    Describe "Show-PSCalendar" {
         It "Should run without error." {
-            {Show-Calendar} | Should -Not -Throw
-        } -skip
-           } -tag command
+            {Show-PSCalendar} | Should -Not -Throw
+        }
+    } -tag command
 
     Describe Show-GuiCalendar {
         It "Should run without error." {
@@ -199,11 +198,12 @@ InModuleScope $script:ModuleName {
 
     Describe Export-PSCalendarConfiguration {
         It "Should run without error" {
-
-        } -pending
+            $configPrefPath = "TestDrive:\test.json"
+            Export-PSCalendarConfiguration -Passthru
+        }
         It "Should create a JSON file" {
-
-        } -pending
+            Test-Path "TestDrive:\test.json"
+        }
     }
 }
 
