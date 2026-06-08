@@ -26,7 +26,8 @@
         'Get-PSCalendarConfiguration',
         'Set-PSCalendarConfiguration',
         'Get-MonthName',
-        'Export-PSCalendarConfiguration'
+        'Export-PSCalendarConfiguration',
+        'Get-WeekOfYear'
     )
     VariablesToExport    = @()
     AliasesToExport      = @(

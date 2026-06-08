@@ -160,6 +160,8 @@ function _getCalendar {
     #code suggestion from @scriptingstudio Issue #32
     $days = [System.Collections.Generic.list[string]]::new()
 
+    $days.Add("Wk")
+
     $underline = 4
     $addDay = {
         $d = $abbreviated[$args[0]].PadLeft($underline, " ")
@@ -182,14 +184,16 @@ function _getCalendar {
     }
 
     $dayHead = $days -join '  '
+    #$dayHead = '   ' + $dayHead
+    Write-Verbose "Using day heading $dayHead"
     Write-Debug "Using day heading $dayHead"
     $month = for ($i = 0; $i -lt 6; $i++) {
         $wk = for ($k = 0; $k -lt $dow.count; $k++) {
-
             $theDay = ($mo.$($dow[$k])[$i]) -as [DateTime]
-
             #Write-Debug "Adding $theDay"
             if ($theDay) {
+                $theWeekNumber =  "$(Get-WeekOfYear -Date $theDay)"
+
                 if (($start.month -ne $theDay.month) -AND $MonthOnly) {
                     $theDay = $null
                     $d = ' '
@@ -198,7 +202,7 @@ function _getCalendar {
                     $d = $theDay.day
                 }
 
-                $value = $d.toString().PadLeft($underline, ' ')
+                $value = $d.toString().PadLeft($underline+1, ' ')
                 #$value = $d.toString().PadLeft(4, ' ')
                 if (($theDay.date -eq (Get-Date).date) -AND (-Not $NoANSI)) {
                     "{0}{1}{2}" -f $PScalendarConfiguration.Today, $value, "$esc[0m"
@@ -216,6 +220,9 @@ function _getCalendar {
                     $value
                 }
             }
+        }
+        If ($wk) {
+            $wk = $theWeekNumber + ' ' + $wk
         }
         Write-Debug "Adding week $wk"
         $wk -join '  '
